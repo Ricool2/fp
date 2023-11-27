@@ -1,4 +1,4 @@
-#project_env/Scripts/active
+#project_env/Scripts/activate
 from uuid import UUID
 from sqlalchemy import create_engine
 from sqlalchemy.orm import Session
