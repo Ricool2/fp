@@ -6,6 +6,7 @@ from fastapi import FastAPI, Depends
 from models import UserLogin, User, Book, BookChanges, UserSingUp
 from schemas import User as UserShema, Book as BookShema
 from typing import Union
+import uvicorn
 
 app = FastAPI()
 
@@ -65,3 +66,6 @@ async def del_user(user_id: UUID, db: Session = Depends(get_db)):
     db.delete(user)
     db.commit()
     return {'message': f'deleted {user.user_id} from users'}
+
+if __name__ == "__main__":
+    uvicorn.run("main:app", port=80, log_level="info")
