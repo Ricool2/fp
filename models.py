@@ -19,16 +19,16 @@ class UserSingUp(UserLogin):
     def dump_secret(self, v):
         return v.get_secret_value()
 
-class User1(UserSingUp):
-    user_id: UUID = Field(default=uuid1())
-    login_date: Annotated[date, Body()] = Field(default=datetime.now().date())
+# class User1(UserSingUp):
+#     user_id: UUID = Field(default=uuid1())
+#     login_date: Annotated[date, Body()] = Field(default=datetime.now().date())
 
-    def __init__(self, user_sign_up: UserSingUp):
-        data = json.loads(user_sign_up.model_dump_json())
-        super().__init__(**data)
+#     def __init__(self, user_sign_up: UserSingUp):
+#         data = json.loads(user_sign_up.model_dump_json())
+#         super().__init__(**data)
 
-    class Config:
-        from_attributes = True
+#     class Config:
+#         from_attributes = True
 
 class User(BaseModel):
     user_id: UUID = Field(default=uuid1())
