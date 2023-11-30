@@ -3,3 +3,4 @@ migrations/env.py
 migrations/__pycache__
 schemas/__pycache__
 project_env/
+docker-compose.yml

@@ -38,8 +38,8 @@ app.add_event_handler("startup", get_db)
 app.add_event_handler("shutdown", shutdown)
 
 @app.get('/')
-def root(db: Session = Depends(get_db)):
-    return db
+def root():
+    return {'message': 'root'}
 
 @app.get('/users/{user_id}', response_model=User)
 def get_user_by_id(user_id: UUID, db: Session = Depends(get_db)):
@@ -67,5 +67,5 @@ async def del_user(user_id: UUID, db: Session = Depends(get_db)):
     db.commit()
     return {'message': f'deleted {user.user_id} from users'}
 
-if __name__ == "__main__":
-    uvicorn.run("main:app", port=80, log_level="info")
+# if __name__ == "__main__":
+#     uvicorn.run("main:app", port=80, log_level="info")
