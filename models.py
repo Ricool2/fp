@@ -12,7 +12,7 @@ class UserLogin(BaseModel):
 class UserSingUp(UserLogin):
     first_name: str = Field(title='First name or pseudonym', max_length=50)
     last_name: str = Field(title='Last name or pseudonym', max_length=50)
-    email: str | None = Field(default=None, title="User email address", max_length=50, min_length=5)
+    email: str | None = Field(default=None, title="User email address", max_length=50)
     phone_number: str | None = Field(default=None, title='User phonenumber', max_length=10)
 
     @field_serializer('hashed_password', when_used='json')
@@ -35,7 +35,7 @@ class User(BaseModel):
     login: str = Field(title='Login for authentication', max_length=20)
     first_name: str = Field(title='First name or pseudonym', max_length=50)
     last_name: str = Field(title='Last name or pseudonym', max_length=50)
-    email: str | None = Field(default=None, title="User email address", max_length=50, min_length=5)
+    email: str | None = Field(default=None, title="User email address", max_length=50)
     phone_number: str | None = Field(default=None, title='User phonenumber', max_length=10)
     login_date: Annotated[date, Body()] = Field(default=datetime.now().date())
     hashed_password: str

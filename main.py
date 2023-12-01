@@ -6,6 +6,7 @@ from fastapi import FastAPI, Depends
 from models import UserLogin, User, Book, BookChanges, UserSingUp
 from schemas import User as UserShema, Book as BookShema
 from typing import Union
+import os
 import uvicorn
 
 app = FastAPI()
@@ -18,7 +19,7 @@ date_formats = {
     'r.': '%Y.%m.%d',
 }
 
-engine = create_engine('postgresql+psycopg2://postgres:1134@127.0.0.1:5432/fp_base')
+engine = create_engine(os.environ.get('DATABASE_URL', 'postgresql+psycopg2://postgres:1134@127.0.0.1:5432/fp_base'))
 # engine.connect()
 
 async def get_db():
@@ -67,5 +68,5 @@ async def del_user(user_id: UUID, db: Session = Depends(get_db)):
     db.commit()
     return {'message': f'deleted {user.user_id} from users'}
 
-# if __name__ == "__main__":
-#     uvicorn.run("main:app", port=80, log_level="info")
+if __name__ == "__main__":
+    uvicorn.run("main:app", port=80, log_level="info")
