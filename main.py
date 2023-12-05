@@ -18,8 +18,8 @@ date_formats = {
     'r-': '%Y-%m-%d',
     'r.': '%Y.%m.%d',
 }
-
-engine = create_engine(os.environ.get('DATABASE_URL', 'postgresql+psycopg2://postgres:1134@127.0.0.1:5432/fp_base'))
+BASE_URL = os.environ.get('DATABASE_URL', 'postgresql+psycopg2://postgres:1134@127.0.0.1:5432/fp_base')
+engine = create_engine(BASE_URL)
 # engine.connect()
 
 async def get_db():
@@ -40,7 +40,12 @@ app.add_event_handler("shutdown", shutdown)
 
 @app.get('/')
 def root():
-    return {'message': 'root'}
+    return {'message': BASE_URL}
+
+@app.get('/users', response_model=list[User])
+def get_user_by_id(db: Session = Depends(get_db)):
+    result = db.query(UserShema).all()
+    return result
 
 @app.get('/users/{user_id}', response_model=User)
 def get_user_by_id(user_id: UUID, db: Session = Depends(get_db)):
@@ -69,4 +74,4 @@ async def del_user(user_id: UUID, db: Session = Depends(get_db)):
     return {'message': f'deleted {user.user_id} from users'}
 
 if __name__ == "__main__":
-    uvicorn.run("main:app", port=80, log_level="info")
+    uvicorn.run("main:app", host="0.0.0.0", port=80, log_level="info")
